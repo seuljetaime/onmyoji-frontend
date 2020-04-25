@@ -1,6 +1,7 @@
 const resolve = require('path').resolve
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const url = require('url')
 const publicPath = ''
 
@@ -41,13 +42,19 @@ module.exports = (options = {}) => ({
     ]
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-      names: ['vendor', 'manifest']
-    }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   names: ['vendor', 'manifest']
+    // }),
+    new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       template: 'src/index.html'
     })
   ],
+  optimization: {
+    splitChunks: {
+      name: 'common'
+    }
+  },
   resolve: {
     alias: {
       '~': resolve(__dirname, 'src')
